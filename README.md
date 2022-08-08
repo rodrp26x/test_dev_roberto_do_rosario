@@ -27,7 +27,7 @@ Go to Environment Variables, you can typically search or run the command below, 
 Edit the Path variable on User Variables / System Variables depending on your choice.
 
     Paste the copied path in the Path Variable.
-    for this project exaple: <Donwload Path>\test_dev_roberto_do_rosario\grails-5.1.9\grails-5.1.9\bin
+    for this project example: <Donwload Path>\test_dev_roberto_do_rosario\grails-5.1.9\grails-5.1.9\bin
 
 If Grails is working correctly you should now be able to type **grails -version** in the terminal window and see output similar to this:
 
