@@ -12,6 +12,7 @@ class Customer {
 	//The last User who modificated this Customer
 	User modificationUser
 	Date modificationDate
+	String imageFileName //This field is the name file inside the S3 bucket
 	
 	static hasMany = [customerChangeHistories : CustomerChangeHistory]
 
@@ -22,7 +23,8 @@ class Customer {
         creationDate nullable: true, blank: true
         modificationUser nullable: true, blank: true
         modificationDate nullable: true, blank: true
-        
+		imageFileName nullable: true, blank: true
+
     }
     
     def getMap(){

@@ -36,17 +36,17 @@ class UserController extends RestfulController {
 		}
 		
 		//Parameter via JSON
-		if(request?.JSON?.roleAuthority){
-			roleAuthority = request?.JSON?.roleAuthority
+		if(params?.roleAuthority){
+			roleAuthority = params?.roleAuthority
 		}
-		if(request?.JSON?.firstname){
-			firstname = request?.JSON?.firstname
+		if(params?.firstname){
+			firstname = params?.firstname
 		}
-		if(request?.JSON?.lastname){
-			lastname = request?.JSON?.lastname
+		if(params?.lastname){
+			lastname = params?.lastname
 		}
-		if(request?.JSON?.username){
-			username = request?.JSON?.username
+		if(params?.username){
+			username = params?.username
 		}			
 		
 		def result = userService.getUserList(id,roleAuthority,firstname,lastname,username)
@@ -67,23 +67,24 @@ class UserController extends RestfulController {
 		
 		
 		//We retrieve all the inputs and prepare for the service
-		if(request?.JSON?.roleAuthority){
-			roleAuthorityList = request?.JSON?.roleAuthority
+		if(params?.roleAuthority){
+			roleAuthorityList = params?.list("roleAuthority")
 		}
-		if(request?.JSON?.firstname){
-			firstname = request?.JSON?.firstname
+		if(params?.firstname){
+			firstname = params?.firstname
 		}
-		if(request?.JSON?.lastname){
-			lastname = request?.JSON?.lastname
+		if(params?.lastname){
+			lastname = params?.lastname
 		}
-		if(request?.JSON?.username){
-			username = request?.JSON?.username
+		if(params?.username){
+			username = params?.username
 		}	
-		if(request?.JSON?.password){
-			password = request?.JSON?.password
+		if(params?.password){
+			password = params?.password
 		}
-		
-		if(currentUser.hasRole("ROLE_ADMIN")){
+
+
+		if(currentUser?.hasRole("ROLE_ADMIN")){
 			result = userService.save(0, roleAuthorityList, firstname, lastname, username, password)
 		} else {
 			result = [code: 401, message: "Access Denied", params: params]
@@ -106,20 +107,20 @@ class UserController extends RestfulController {
 		String password
 				
 		//We retrieve all the inputs and prepare for the service
-		if(request?.JSON?.roleAuthority){
-			roleAuthorityList = request?.JSON?.roleAuthority
+		if(params?.roleAuthority){
+			roleAuthorityList = params?.list("roleAuthority")
 		}
-		if(request?.JSON?.firstname){
-			firstname = request?.JSON?.firstname
+		if(params?.firstname){
+			firstname = params?.firstname
 		}
-		if(request?.JSON?.lastname){
-			lastname = request?.JSON?.lastname
+		if(params?.lastname){
+			lastname = params?.lastname
 		}
-		if(request?.JSON?.username){
-			username = request?.JSON?.username
+		if(params?.username){
+			username = params?.username
 		}	
-		if(request?.JSON?.password){
-			password = request?.JSON?.password
+		if(params?.password){
+			password = params?.password
 		}
 		
 		if(currentUser.hasRole("ROLE_ADMIN")){

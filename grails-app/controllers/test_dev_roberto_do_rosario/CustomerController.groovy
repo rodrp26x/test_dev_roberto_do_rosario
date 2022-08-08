@@ -1,16 +1,17 @@
 package test_dev_roberto_do_rosario
 import grails.rest.RestfulController
 import grails.converters.JSON
-import groovy.json.JsonSlurper
-import java.io.File
-import java.io.FileOutputStream
+import org.apache.commons.io.FilenameUtils
 import org.springframework.web.multipart.MultipartFile
+
+import java.nio.file.Files
 
 class CustomerController extends RestfulController {
     static responseFormats = ['json', 'xml']
     
     def springSecurityService
     def customerService
+	def amazonS3Service
     
     CustomerController(){
 		super(Customer)
@@ -30,16 +31,8 @@ class CustomerController extends RestfulController {
 			lastname = params?.lastname
 		}
 		
-		//Parameter via JSON
-		if(request?.JSON?.firstname){
-			firstname = request?.JSON?.firstname
-		}
-		if(request?.JSON?.lastname){
-			lastname = request?.JSON?.lastname
-		}		
-		
 		def result = customerService.getCustomerList(id,firstname,lastname)
-		
+
 		render result as JSON
 	}
 	
@@ -51,12 +44,7 @@ class CustomerController extends RestfulController {
 		User currentUser = springSecurityService.currentUser
 		String firstname
 		String lastname
-		String photoUrl = "asdad"
-		def imageBytes
-		//File imageFile = new File("C:\Users\rodrp\Desktop\fileUploaded.jpg")
 		MultipartFile multipartFile
-		File imageFile
-		FileOutputStream fos
 		
 		//We retrieve all the inputs and prepare for the service
 		if(params?.firstname){
@@ -65,14 +53,14 @@ class CustomerController extends RestfulController {
 		if(params?.lastname){
 			lastname = params?.lastname
 		}
-		if(params?.photoUrl){
-			//photoUrl = request?.JSON?.photoUrl
-			println("params?.photoUrl --- ${params?.photoUrl}")
-			multipartFile = params?.photoUrl
+		if(params?.imageFile){
+			println("params?.imageFile --- ${params?.imageFile}")
+			multipartFile = params?.imageFile
 		}
-		
+
 		result = customerService.save(0, firstname, lastname, multipartFile)
-		
+
+
 		response.status = result?.code
 		render result?.message
 	}
@@ -84,20 +72,22 @@ class CustomerController extends RestfulController {
 		User currentUser = springSecurityService.currentUser
 		String firstname
 		String lastname
-		String photoUrl
+		String imageFile
+		MultipartFile multipartFile
 				
 		//We retrieve all the inputs and prepare for the service
-		if(request?.JSON?.firstname){
-			firstname = request?.JSON?.firstname
+		if(params?.firstname){
+			firstname = params?.firstname
 		}
-		if(request?.JSON?.lastname){
-			lastname = request?.JSON?.lastname
+		if(params?.lastname){
+			lastname = params?.lastname
 		}
-		if(request?.JSON?.photoUrl){
-			photoUrl = request?.JSON?.photoUrl
+		if(params?.imageFile){
+			println("params?.imageFile --- ${params?.imageFile}")
+			multipartFile = params?.imageFile
 		}
 		
-		result = customerService.save(id, firstname, lastname, photoUrl)
+		result = customerService.save(id, firstname, lastname, imageFile)
 		
 		response.status = result?.code		
 		render result?.message
